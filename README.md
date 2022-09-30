@@ -1,4 +1,4 @@
-# Fork of CakePHP 2 with support for PHP8
+# Fork of CakePHP 2 with support for PHP 7 + 8
 
 ~~For original README content please check original repository: https://github.com/cakephp/cakephp/tree/2.x~~
 
