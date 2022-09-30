@@ -1,4 +1,5 @@
 <?php
+
 /**
  * CakeValidationSet.
  *
@@ -27,57 +28,59 @@ App::uses('CakeValidationRule', 'Model/Validator');
  * @package       Cake.Model.Validator
  * @link          https://book.cakephp.org/2.0/en/data-validation.html
  */
-class CakeValidationSet implements ArrayAccess, IteratorAggregate, Countable {
+class CakeValidationSet implements ArrayAccess, IteratorAggregate, Countable
+{
 
-/**
- * Holds the CakeValidationRule objects
- *
- * @var CakeValidationRule[]
- */
+	/**
+	 * Holds the CakeValidationRule objects
+	 *
+	 * @var CakeValidationRule[]
+	 */
 	protected $_rules = array();
 
-/**
- * List of methods available for validation
- *
- * @var array
- */
+	/**
+	 * List of methods available for validation
+	 *
+	 * @var array
+	 */
 	protected $_methods = array();
 
-/**
- * I18n domain for validation messages.
- *
- * @var string
- */
+	/**
+	 * I18n domain for validation messages.
+	 *
+	 * @var string
+	 */
 	protected $_validationDomain = null;
 
-/**
- * Whether the validation is stopped
- *
- * @var bool
- */
+	/**
+	 * Whether the validation is stopped
+	 *
+	 * @var bool
+	 */
 	public $isStopped = false;
 
-/**
- * Holds the fieldname
- *
- * @var string
- */
+	/**
+	 * Holds the fieldname
+	 *
+	 * @var string
+	 */
 	public $field = null;
 
-/**
- * Holds the original ruleSet
- *
- * @var array
- */
+	/**
+	 * Holds the original ruleSet
+	 *
+	 * @var array
+	 */
 	public $ruleSet = array();
 
-/**
- * Constructor
- *
- * @param string $fieldName The fieldname.
- * @param array $ruleSet Rules set.
- */
-	public function __construct($fieldName, $ruleSet) {
+	/**
+	 * Constructor
+	 *
+	 * @param string $fieldName The fieldname.
+	 * @param array $ruleSet Rules set.
+	 */
+	public function __construct($fieldName, $ruleSet)
+	{
 		$this->field = $fieldName;
 
 		if (!is_array($ruleSet) || (is_array($ruleSet) && isset($ruleSet['rule']))) {
@@ -90,35 +93,38 @@ class CakeValidationSet implements ArrayAccess, IteratorAggregate, Countable {
 		$this->ruleSet = $ruleSet;
 	}
 
-/**
- * Sets the list of methods to use for validation
- *
- * @param array &$methods Methods list
- * @return void
- */
-	public function setMethods(&$methods) {
-		$this->_methods =& $methods;
+	/**
+	 * Sets the list of methods to use for validation
+	 *
+	 * @param array &$methods Methods list
+	 * @return void
+	 */
+	public function setMethods(&$methods)
+	{
+		$this->_methods = &$methods;
 	}
 
-/**
- * Sets the I18n domain for validation messages.
- *
- * @param string $validationDomain The validation domain to be used.
- * @return void
- */
-	public function setValidationDomain($validationDomain) {
+	/**
+	 * Sets the I18n domain for validation messages.
+	 *
+	 * @param string $validationDomain The validation domain to be used.
+	 * @return void
+	 */
+	public function setValidationDomain($validationDomain)
+	{
 		$this->_validationDomain = $validationDomain;
 	}
 
-/**
- * Runs all validation rules in this set and returns a list of
- * validation errors
- *
- * @param array $data Data array
- * @param bool $isUpdate Is record being updated or created
- * @return array list of validation errors for this field
- */
-	public function validate($data, $isUpdate = false) {
+	/**
+	 * Runs all validation rules in this set and returns a list of
+	 * validation errors
+	 *
+	 * @param array $data Data array
+	 * @param bool $isUpdate Is record being updated or created
+	 * @return array list of validation errors for this field
+	 */
+	public function validate($data, $isUpdate = false)
+	{
 		$this->reset();
 		$errors = array();
 		foreach ($this->getRules() as $name => $rule) {
@@ -146,54 +152,58 @@ class CakeValidationSet implements ArrayAccess, IteratorAggregate, Countable {
 		return $errors;
 	}
 
-/**
- * Resets internal state for all validation rules in this set
- *
- * @return void
- */
-	public function reset() {
+	/**
+	 * Resets internal state for all validation rules in this set
+	 *
+	 * @return void
+	 */
+	public function reset()
+	{
 		foreach ($this->getRules() as $rule) {
 			$rule->reset();
 		}
 	}
 
-/**
- * Gets a rule for a given name if exists
- *
- * @param string $name Field name.
- * @return CakeValidationRule
- */
-	public function getRule($name) {
+	/**
+	 * Gets a rule for a given name if exists
+	 *
+	 * @param string $name Field name.
+	 * @return CakeValidationRule
+	 */
+	public function getRule($name)
+	{
 		if (!empty($this->_rules[$name])) {
 			return $this->_rules[$name];
 		}
 	}
 
-/**
- * Returns all rules for this validation set
- *
- * @return CakeValidationRule[]
- */
-	public function getRules() {
+	/**
+	 * Returns all rules for this validation set
+	 *
+	 * @return CakeValidationRule[]
+	 */
+	public function getRules()
+	{
 		return $this->_rules;
 	}
 
-/**
- * Sets a CakeValidationRule $rule with a $name
- *
- * ## Example:
- *
- * ```
- *		$set
- *			->setRule('required', array('rule' => 'notBlank', 'required' => true))
- *			->setRule('between', array('rule' => array('lengthBetween', 4, 10))
- * ```
- *
- * @param string $name The name under which the rule should be set
- * @param CakeValidationRule|array $rule The validation rule to be set
- * @return self
- */
-	public function setRule($name, $rule) {
+	/**
+	 * Sets a CakeValidationRule $rule with a $name
+	 *
+	 * ## Example:
+	 *
+	 * ```
+	 *		$set
+	 *			->setRule('required', array('rule' => 'notBlank', 'required' => true))
+	 *			->setRule('between', array('rule' => array('lengthBetween', 4, 10))
+	 * ```
+	 *
+	 * @param string $name The name under which the rule should be set
+	 * @param CakeValidationRule|array $rule The validation rule to be set
+	 * @return self
+	 */
+	public function setRule($name, $rule)
+	{
 		if (!($rule instanceof CakeValidationRule)) {
 			$rule = new CakeValidationRule($rule);
 		}
@@ -201,42 +211,44 @@ class CakeValidationSet implements ArrayAccess, IteratorAggregate, Countable {
 		return $this;
 	}
 
-/**
- * Removes a validation rule from the set
- *
- * ## Example:
- *
- * ```
- *		$set
- *			->removeRule('required')
- *			->removeRule('inRange')
- * ```
- *
- * @param string $name The name under which the rule should be unset
- * @return self
- */
-	public function removeRule($name) {
+	/**
+	 * Removes a validation rule from the set
+	 *
+	 * ## Example:
+	 *
+	 * ```
+	 *		$set
+	 *			->removeRule('required')
+	 *			->removeRule('inRange')
+	 * ```
+	 *
+	 * @param string $name The name under which the rule should be unset
+	 * @return self
+	 */
+	public function removeRule($name)
+	{
 		unset($this->_rules[$name]);
 		return $this;
 	}
 
-/**
- * Sets the rules for a given field
- *
- * ## Example:
- *
- * ```
- *		$set->setRules(array(
- *			'required' => array('rule' => 'notBlank', 'required' => true),
- *			'inRange' => array('rule' => array('between', 4, 10)
- * 		));
- * ```
- *
- * @param array $rules The rules to be set
- * @param bool $mergeVars [optional] If true, merges vars instead of replace. Defaults to true.
- * @return self
- */
-	public function setRules($rules = array(), $mergeVars = true) {
+	/**
+	 * Sets the rules for a given field
+	 *
+	 * ## Example:
+	 *
+	 * ```
+	 *		$set->setRules(array(
+	 *			'required' => array('rule' => 'notBlank', 'required' => true),
+	 *			'inRange' => array('rule' => array('between', 4, 10)
+	 * 		));
+	 * ```
+	 *
+	 * @param array $rules The rules to be set
+	 * @param bool $mergeVars [optional] If true, merges vars instead of replace. Defaults to true.
+	 * @return self
+	 */
+	public function setRules($rules = array(), $mergeVars = true)
+	{
 		if ($mergeVars === false) {
 			$this->_rules = array();
 		}
@@ -246,14 +258,15 @@ class CakeValidationSet implements ArrayAccess, IteratorAggregate, Countable {
 		return $this;
 	}
 
-/**
- * Fetches the correct error message for a failed validation
- *
- * @param string $name the name of the rule as it was configured
- * @param CakeValidationRule $rule the object containing validation information
- * @return string
- */
-	protected function _processValidationResponse($name, $rule) {
+	/**
+	 * Fetches the correct error message for a failed validation
+	 *
+	 * @param string $name the name of the rule as it was configured
+	 * @param CakeValidationRule $rule the object containing validation information
+	 * @return string
+	 */
+	protected function _processValidationResponse($name, $rule)
+	{
 		$message = $rule->getValidationResult();
 		if (is_string($message)) {
 			return $message;
@@ -289,13 +302,14 @@ class CakeValidationSet implements ArrayAccess, IteratorAggregate, Countable {
 		return $message;
 	}
 
-/**
- * Applies translations to validator arguments.
- *
- * @param array $args The args to translate
- * @return array Translated args.
- */
-	protected function _translateArgs($args) {
+	/**
+	 * Applies translations to validator arguments.
+	 *
+	 * @param array $args The args to translate
+	 * @return array Translated args.
+	 */
+	protected function _translateArgs($args)
+	{
 		foreach ((array)$args as $k => $arg) {
 			if (is_string($arg)) {
 				$args[$k] = __d($this->_validationDomain, $arg);
@@ -304,67 +318,72 @@ class CakeValidationSet implements ArrayAccess, IteratorAggregate, Countable {
 		return $args;
 	}
 
-/**
- * Returns whether an index exists in the rule set
- *
- * @param mixed $index name of the rule
- * @return bool
- */
-	public function offsetExists(mixed $index) : bool {
+	/**
+	 * Returns whether an index exists in the rule set
+	 *
+	 * @param mixed $index name of the rule
+	 * @return bool
+	 */
+	public function offsetExists($index): bool
+	{
 		return isset($this->_rules[$index]);
 	}
 
-/**
- * Returns a rule object by its index
- *
- * @param mixed $index name of the rule
- * @return CakeValidationRule
- */
-	public function offsetGet(mixed $index) : mixed {
+	/**
+	 * Returns a rule object by its index
+	 *
+	 * @param mixed $index name of the rule
+	 * @return CakeValidationRule
+	 */
+	public function offsetGet($index)
+	{
 		return $this->_rules[$index];
 	}
 
-/**
- * Sets or replace a validation rule.
- *
- * This is a wrapper for ArrayAccess. Use setRule() directly for
- * chainable access.
- *
- * @param string $index Name of the rule.
- * @param CakeValidationRule|array $rule Rule to add to $index.
- * @return void
- * @see http://www.php.net/manual/en/arrayobject.offsetset.php
- */
-	public function offsetSet(mixed $index, mixed $rule) : void {
+	/**
+	 * Sets or replace a validation rule.
+	 *
+	 * This is a wrapper for ArrayAccess. Use setRule() directly for
+	 * chainable access.
+	 *
+	 * @param string $index Name of the rule.
+	 * @param CakeValidationRule|array $rule Rule to add to $index.
+	 * @return void
+	 * @see http://www.php.net/manual/en/arrayobject.offsetset.php
+	 */
+	public function offsetSet($index, $rule)
+	{
 		$this->setRule($index, $rule);
 	}
 
-/**
- * Unsets a validation rule
- *
- * @param string $index name of the rule
- * @return void
- */
-	public function offsetUnset(mixed $index) : void {
+	/**
+	 * Unsets a validation rule
+	 *
+	 * @param string $index name of the rule
+	 * @return void
+	 */
+	public function offsetUnset($index)
+	{
 		unset($this->_rules[$index]);
 	}
 
-/**
- * Returns an iterator for each of the rules to be applied
- *
- * @return ArrayIterator
- */
-	public function getIterator() : Traversable {
+	/**
+	 * Returns an iterator for each of the rules to be applied
+	 *
+	 * @return ArrayIterator
+	 */
+	public function getIterator(): Traversable
+	{
 		return new ArrayIterator($this->_rules);
 	}
 
-/**
- * Returns the number of rules in this set
- *
- * @return int
- */
-	public function count() : int {
+	/**
+	 * Returns the number of rules in this set
+	 *
+	 * @return int
+	 */
+	public function count(): int
+	{
 		return count($this->_rules);
 	}
-
 }

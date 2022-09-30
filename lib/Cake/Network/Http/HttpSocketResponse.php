@@ -1,4 +1,5 @@
 <?php
+
 /**
  * HTTP Response from HttpSocket.
  *
@@ -20,95 +21,99 @@
  *
  * @package       Cake.Network.Http
  */
-class HttpSocketResponse implements ArrayAccess {
+class HttpSocketResponse implements ArrayAccess
+{
 
-/**
- * Body content
- *
- * @var string
- */
+	/**
+	 * Body content
+	 *
+	 * @var string
+	 */
 	public $body = '';
 
-/**
- * Headers
- *
- * @var array
- */
+	/**
+	 * Headers
+	 *
+	 * @var array
+	 */
 	public $headers = array();
 
-/**
- * Cookies
- *
- * @var array
- */
+	/**
+	 * Cookies
+	 *
+	 * @var array
+	 */
 	public $cookies = array();
 
-/**
- * HTTP version
- *
- * @var string
- */
+	/**
+	 * HTTP version
+	 *
+	 * @var string
+	 */
 	public $httpVersion = 'HTTP/1.1';
 
-/**
- * Response code
- *
- * @var int
- */
+	/**
+	 * Response code
+	 *
+	 * @var int
+	 */
 	public $code = 0;
 
-/**
- * Reason phrase
- *
- * @var string
- */
+	/**
+	 * Reason phrase
+	 *
+	 * @var string
+	 */
 	public $reasonPhrase = '';
 
-/**
- * Pure raw content
- *
- * @var string
- */
+	/**
+	 * Pure raw content
+	 *
+	 * @var string
+	 */
 	public $raw = '';
 
-/**
- * Context data in the response.
- * Contains SSL certificates for example.
- *
- * @var array
- */
+	/**
+	 * Context data in the response.
+	 * Contains SSL certificates for example.
+	 *
+	 * @var array
+	 */
 	public $context = array();
 
-/**
- * Constructor
- *
- * @param string $message Message to parse.
- */
-	public function __construct($message = null) {
+	/**
+	 * Constructor
+	 *
+	 * @param string $message Message to parse.
+	 */
+	public function __construct($message = null)
+	{
 		if ($message !== null) {
 			$this->parseResponse($message);
 		}
 	}
 
-/**
- * Body content
- *
- * @return string
- */
-	public function body() {
+	/**
+	 * Body content
+	 *
+	 * @return string
+	 */
+	public function body()
+	{
 		return (string)$this->body;
 	}
 
-/**
- * Get header in case insensitive
- *
- * @param string $name Header name.
- * @param array $headers Headers to format.
- * @return mixed String if header exists or null
- */
-	public function getHeader($name, $headers = null) {
+	/**
+	 * Get header in case insensitive
+	 *
+	 * @param string $name Header name.
+	 * @param array $headers Headers to format.
+	 * @return mixed String if header exists or null
+	 */
+	public function getHeader($name, $headers = null)
+	{
 		if (!is_array($headers)) {
-			$headers =& $this->headers;
+			$headers = &$this->headers;
 		}
 		if (isset($headers[$name])) {
 			return $headers[$name];
@@ -121,32 +126,35 @@ class HttpSocketResponse implements ArrayAccess {
 		return null;
 	}
 
-/**
- * If return is 200 (OK)
- *
- * @return bool
- */
-	public function isOk() {
+	/**
+	 * If return is 200 (OK)
+	 *
+	 * @return bool
+	 */
+	public function isOk()
+	{
 		return in_array($this->code, array(200, 201, 202, 203, 204, 205, 206));
 	}
 
-/**
- * If return is a valid 3xx (Redirection)
- *
- * @return bool
- */
-	public function isRedirect() {
+	/**
+	 * If return is a valid 3xx (Redirection)
+	 *
+	 * @return bool
+	 */
+	public function isRedirect()
+	{
 		return in_array($this->code, array(301, 302, 303, 307)) && $this->getHeader('Location') !== null;
 	}
 
-/**
- * Parses the given message and breaks it down in parts.
- *
- * @param string $message Message to parse
- * @return void
- * @throws SocketException
- */
-	public function parseResponse($message) {
+	/**
+	 * Parses the given message and breaks it down in parts.
+	 *
+	 * @param string $message Message to parse
+	 * @return void
+	 * @throws SocketException
+	 */
+	public function parseResponse($message)
+	{
 		if (!is_string($message)) {
 			throw new SocketException(__d('cake_dev', 'Invalid response.'));
 		}
@@ -181,15 +189,16 @@ class HttpSocketResponse implements ArrayAccess {
 		}
 	}
 
-/**
- * Generic function to decode a $body with a given $encoding. Returns either an array with the keys
- * 'body' and 'header' or false on failure.
- *
- * @param string $body A string containing the body to decode.
- * @param string|bool $encoding Can be false in case no encoding is being used, or a string representing the encoding.
- * @return mixed Array of response headers and body or false.
- */
-	protected function _decodeBody($body, $encoding = 'chunked') {
+	/**
+	 * Generic function to decode a $body with a given $encoding. Returns either an array with the keys
+	 * 'body' and 'header' or false on failure.
+	 *
+	 * @param string $body A string containing the body to decode.
+	 * @param string|bool $encoding Can be false in case no encoding is being used, or a string representing the encoding.
+	 * @return mixed Array of response headers and body or false.
+	 */
+	protected function _decodeBody($body, $encoding = 'chunked')
+	{
 		if (!is_string($body)) {
 			return false;
 		}
@@ -204,15 +213,16 @@ class HttpSocketResponse implements ArrayAccess {
 		return $this->{$decodeMethod}($body);
 	}
 
-/**
- * Decodes a chunked message $body and returns either an array with the keys 'body' and 'header' or false as
- * a result.
- *
- * @param string $body A string containing the chunked body to decode.
- * @return mixed Array of response headers and body or false.
- * @throws SocketException
- */
-	protected function _decodeChunkedBody($body) {
+	/**
+	 * Decodes a chunked message $body and returns either an array with the keys 'body' and 'header' or false as
+	 * a result.
+	 *
+	 * @param string $body A string containing the chunked body to decode.
+	 * @return mixed Array of response headers and body or false.
+	 * @throws SocketException
+	 */
+	protected function _decodeChunkedBody($body)
+	{
 		if (!is_string($body)) {
 			return false;
 		}
@@ -255,13 +265,14 @@ class HttpSocketResponse implements ArrayAccess {
 		return array('body' => $decodedBody, 'header' => $entityHeader);
 	}
 
-/**
- * Parses an array based header.
- *
- * @param array $header Header as an indexed array (field => value)
- * @return array|bool Parsed header
- */
-	protected function _parseHeader($header) {
+	/**
+	 * Parses an array based header.
+	 *
+	 * @param array $header Header as an indexed array (field => value)
+	 * @return array|bool Parsed header
+	 */
+	protected function _parseHeader($header)
+	{
 		if (is_array($header)) {
 			return $header;
 		} elseif (!is_string($header)) {
@@ -298,13 +309,14 @@ class HttpSocketResponse implements ArrayAccess {
 		return $header;
 	}
 
-/**
- * Parses cookies in response headers.
- *
- * @param array $header Header array containing one ore more 'Set-Cookie' headers.
- * @return mixed Either false on no cookies, or an array of cookies received.
- */
-	public function parseCookies($header) {
+	/**
+	 * Parses cookies in response headers.
+	 *
+	 * @param array $header Header array containing one ore more 'Set-Cookie' headers.
+	 * @return mixed Either false on no cookies, or an array of cookies received.
+	 */
+	public function parseCookies($header)
+	{
 		$cookieHeader = $this->getHeader('Set-Cookie', $header);
 		if (!$cookieHeader) {
 			return false;
@@ -343,27 +355,29 @@ class HttpSocketResponse implements ArrayAccess {
 		return $cookies;
 	}
 
-/**
- * Unescapes a given $token according to RFC 2616 (HTTP 1.1 specs)
- *
- * @param string $token Token to unescape.
- * @param array $chars Characters to unescape.
- * @return string Unescaped token
- */
-	protected function _unescapeToken($token, $chars = null) {
+	/**
+	 * Unescapes a given $token according to RFC 2616 (HTTP 1.1 specs)
+	 *
+	 * @param string $token Token to unescape.
+	 * @param array $chars Characters to unescape.
+	 * @return string Unescaped token
+	 */
+	protected function _unescapeToken($token, $chars = null)
+	{
 		$regex = '/"([' . implode('', $this->_tokenEscapeChars(true, $chars)) . '])"/';
 		$token = preg_replace($regex, '\\1', $token);
 		return $token;
 	}
 
-/**
- * Gets escape chars according to RFC 2616 (HTTP 1.1 specs).
- *
- * @param bool $hex True to get them as HEX values, false otherwise.
- * @param array $chars Characters to uescape.
- * @return array Escape chars
- */
-	protected function _tokenEscapeChars($hex = true, $chars = null) {
+	/**
+	 * Gets escape chars according to RFC 2616 (HTTP 1.1 specs).
+	 *
+	 * @param bool $hex True to get them as HEX values, false otherwise.
+	 * @param array $chars Characters to uescape.
+	 * @return array Escape chars
+	 */
+	protected function _tokenEscapeChars($hex = true, $chars = null)
+	{
 		if (!empty($chars)) {
 			$escape = $chars;
 		} else {
@@ -383,23 +397,25 @@ class HttpSocketResponse implements ArrayAccess {
 		return $escape;
 	}
 
-/**
- * ArrayAccess - Offset Exists
- *
- * @param mixed $offset Offset to check.
- * @return bool
- */
-	public function offsetExists(mixed $offset) : bool {
+	/**
+	 * ArrayAccess - Offset Exists
+	 *
+	 * @param mixed $offset Offset to check.
+	 * @return bool
+	 */
+	public function offsetExists($offset): bool
+	{
 		return in_array($offset, array('raw', 'status', 'header', 'body', 'cookies'));
 	}
 
-/**
- * ArrayAccess - Offset Get
- *
- * @param mixed $offset Offset to get.
- * @return mixed
- */
-	public function offsetGet(mixed $offset) : mixed {
+	/**
+	 * ArrayAccess - Offset Get
+	 *
+	 * @param mixed $offset Offset to get.
+	 * @return mixed
+	 */
+	public function offsetGet($offset)
+	{
 		switch ($offset) {
 			case 'raw':
 				$firstLineLength = strpos($this->raw, "\r\n") + 2;
@@ -430,32 +446,34 @@ class HttpSocketResponse implements ArrayAccess {
 		return null;
 	}
 
-/**
- * ArrayAccess - Offset Set
- *
- * @param mixed $offset Offset to set.
- * @param mixed $value Value.
- * @return void
- */
-	public function offsetSet(mixed $offset, mixed $value) : void {
+	/**
+	 * ArrayAccess - Offset Set
+	 *
+	 * @param mixed $offset Offset to set.
+	 * @param mixed $value Value.
+	 * @return void
+	 */
+	public function offsetSet($offset, $value)
+	{
 	}
 
-/**
- * ArrayAccess - Offset Unset
- *
- * @param string $offset Offset to unset.
- * @return void
- */
-	public function offsetUnset(mixed $offset) : void {
+	/**
+	 * ArrayAccess - Offset Unset
+	 *
+	 * @param string $offset Offset to unset.
+	 * @return void
+	 */
+	public function offsetUnset($offset)
+	{
 	}
 
-/**
- * Instance as string
- *
- * @return string
- */
-	public function __tostring() {
+	/**
+	 * Instance as string
+	 *
+	 * @return string
+	 */
+	public function __tostring()
+	{
 		return $this->body();
 	}
-
 }
