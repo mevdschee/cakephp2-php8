@@ -8,6 +8,8 @@ Unfortunately branch 2.x in original repository was taken down.
 
 CakePHP 2 stopped getting updates in the end of 2019 (AFAIR). Unfortunately in my case it's too expensive to migrate to newer versions of CakePHP. I started migrating to Symfony framework, but I still use ORM from CakePHP (and actually I like it). So in order to keep up with the newest PHP versions I decided to create fork of the framework.
 
+I forked this again to work with on both PHP 7 and PHP 8, so that a team of people with mixed PHP versions can use the software.
+
 ## Why you should NOT use? ⛔
 
 - Intention of this fork is to support PHP 8.*. Fork is not going to receive new features. Instead, fork is going to get minimal set of patches to comply with newer versions of PHP.
