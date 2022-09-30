@@ -55,6 +55,11 @@ It means that composer will look at `master` branch of repository configured und
 
 ## Changelog
 
+### 2022-09-30
+
+- Remove PHP 8 requirement
+- remove `mixed` and `void` types in parameters and returns to avoid problems in PHP 7
+
 ### 2022-09-27
 
 - Fixed multiple `CREATE UNIQUE INDEX` statements from schema shell that did not work on PostgreSQL.
