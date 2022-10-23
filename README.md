@@ -1,4 +1,4 @@
-# Fork of CakePHP 2 with support for PHP8
+# Fork of CakePHP 2 with support for PHP 7 + 8
 
 ~~For original README content please check original repository: https://github.com/cakephp/cakephp/tree/2.x~~
 
@@ -7,6 +7,8 @@ Unfortunately branch 2.x in original repository was taken down.
 ## Why I created this fork? 🤔
 
 CakePHP 2 stopped getting updates in the end of 2019 (AFAIR). Unfortunately in my case it's too expensive to migrate to newer versions of CakePHP. I started migrating to Symfony framework, but I still use ORM from CakePHP (and actually I like it). So in order to keep up with the newest PHP versions I decided to create fork of the framework.
+
+I forked this again to work with on both PHP 7 and PHP 8, so that a team of people with mixed PHP versions can use the software.
 
 ## Why you should NOT use? ⛔
 
@@ -62,6 +64,11 @@ It means that composer will look at `master` branch of repository configured und
 ### 2022-10-08
 
 - Support for `full_path` when uploading a file, PHP 8.1 only.
+
+### 2022-09-30
+
+- Remove PHP 8 requirement
+- remove `mixed` and `void` types in parameters and returns to avoid problems in PHP 7
 
 ### 2022-09-27
 
