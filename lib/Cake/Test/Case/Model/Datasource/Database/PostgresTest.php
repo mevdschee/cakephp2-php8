@@ -214,7 +214,7 @@ class PostgresTest extends CakeTestCase {
  *
  * @return void
  */
-	public function setUp() {
+	public function setUp() : void {
 		parent::setUp();
 		Configure::write('Cache.disable', true);
 		$this->Dbo = ConnectionManager::getDataSource('test');
@@ -228,7 +228,7 @@ class PostgresTest extends CakeTestCase {
  *
  * @return void
  */
-	public function tearDown() {
+	public function tearDown() : void {
 		parent::tearDown();
 		Configure::write('Cache.disable', false);
 		unset($this->Dbo2);
@@ -530,7 +530,7 @@ class PostgresTest extends CakeTestCase {
 		));
 
 		$result = $this->Dbo->createSchema($schema);
-		$this->assertNotRegExp('/^CREATE INDEX(.+);,$/', $result);
+		$this->assertDoesNotMatchRegularExpression('/^CREATE INDEX(.+);,$/', $result);
 	}
 
 /**
@@ -566,10 +566,10 @@ class PostgresTest extends CakeTestCase {
 		);
 		$result = $db1->createSchema($schema, 'datatype_tests');
 
-		$this->assertNotRegExp('/timestamp DEFAULT/', $result);
-		$this->assertRegExp('/\"full_length\"\s*text\s.*,/', $result);
-		$this->assertContains('timestamp ,', $result);
-		$this->assertContains('"huge_int" bigint NOT NULL,', $result);
+		$this->assertDoesNotMatchRegularExpression('/timestamp DEFAULT/', $result);
+		$this->assertMatchesRegularExpression('/\"full_length\"\s*text\s.*,/', $result);
+		$this->assertStringContainsString('timestamp ,', $result);
+		$this->assertStringContainsString('"huge_int" bigint NOT NULL,', $result);
 
 		$db1->query('DROP TABLE ' . $db1->fullTableName('datatype_tests'));
 
@@ -612,7 +612,7 @@ class PostgresTest extends CakeTestCase {
 		);
 		$result = $db1->createSchema($schema, 'bigserial_tests');
 
-		$this->assertContains('"id" bigserial NOT NULL,', $result);
+		$this->assertStringContainsString('"id" bigserial NOT NULL,', $result);
 
 		$db1->query('DROP TABLE ' . $db1->fullTableName('bigserial_tests'));
 	}
@@ -709,7 +709,7 @@ class PostgresTest extends CakeTestCase {
 			)
 		));
 		$result = $this->Dbo->alterSchema($New->compare($Old), 'alter_posts');
-		$this->assertNotRegExp('/varchar\(36\) NOT NULL/i', $result);
+		$this->assertDoesNotMatchRegularExpression('/varchar\(36\) NOT NULL/i', $result);
 	}
 
 /**
@@ -864,10 +864,10 @@ class PostgresTest extends CakeTestCase {
 				)
 			)
 		));
-		$this->assertContains('RENAME "title" TO "subject";', $query);
-		$this->assertContains('ALTER COLUMN "subject" TYPE', $query);
-		$this->assertNotContains(";\n\tALTER COLUMN \"subject\" TYPE", $query);
-		$this->assertNotContains('ALTER COLUMN "title" TYPE "subject"', $query);
+		$this->assertStringContainsString('RENAME "title" TO "subject";', $query);
+		$this->assertStringContainsString('ALTER COLUMN "subject" TYPE', $query);
+		$this->assertStringNotContainsString(";\n\tALTER COLUMN \"subject\" TYPE", $query);
+		$this->assertStringNotContainsString('ALTER COLUMN "title" TYPE "subject"', $query);
 	}
 
 /**
@@ -1141,7 +1141,7 @@ class PostgresTest extends CakeTestCase {
 
 		$result = $db->limit(10, 300000000000000000000000000000);
 		$scientificNotation = sprintf('%.1E', 300000000000000000000000000000);
-		$this->assertNotContains($scientificNotation, $result);
+		$this->assertStringNotContainsString($scientificNotation, $result);
 	}
 
 /**
